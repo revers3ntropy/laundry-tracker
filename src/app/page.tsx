@@ -10,7 +10,7 @@ async function loadData() {
   return res.json();
 }
 
-export default function () {
+export default function Page() {
   return <main>
     <Suspense fallback={<div>Loading...</div>}>
       <Comments dataPromise={loadData()} />
