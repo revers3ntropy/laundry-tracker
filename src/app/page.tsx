@@ -1,17 +1,98 @@
 import { Suspense, use } from "react";
+import { fmtTimeDuration} from "@/app/util";
 
-function Comments({ dataPromise }: { dataPromise: Promise<unknown> } ) {
-  const data = use(dataPromise);
-  return <div>{JSON.stringify(data)}</div>;
+enum MachineType {
+    WASHER = 'MachineType::WASHER',
+    DRYER = 'MachineType::DRYER',
 }
 
-async function loadData() {
-  const res = await fetch('https://api.alliancelabs.com/washAlerts/machines?organisationID=652210');
-  return res.json();
+function fmtMachineType (t: MachineType) {
+  switch(t) {
+    case MachineType.WASHER: return 'Washer';
+    case MachineType.DRYER: return 'Dryer';
+  }
+}
+
+enum MachineState {
+    AVAILABLE = 'MachineState::AVAILABLE',
+    IN_USE = 'MachineState::IN_USE',
+    OUT_OF_ORDER = 'MachineState::OUT_OF_ORDER',
+}
+
+type MachineStatus = { type: MachineState.OUT_OF_ORDER } | { type: MachineState.AVAILABLE } | {
+  type: MachineState.IN_USE;
+  remainingSeconds: number;
+};
+
+interface Machine {
+  id: string;
+  type: MachineType;
+  status: MachineStatus
+}
+
+interface RawMachineData {
+  id: string;
+  currentStatus: string;
+  machineType: {isWasher: boolean, isDryer: boolean}
+}
+
+function parseApiData(data: RawMachineData[]): Machine[] {
+    return data.map((machine) => {
+      const state = JSON.parse(machine.currentStatus) as {
+        remainingSeconds: number;
+        statusId: string;
+      };
+      return {
+        id: machine.id,
+        type: machine.machineType.isWasher ? MachineType.WASHER : MachineType.DRYER,
+        status: state.statusId === 'AVAILABLE' ? { type:  MachineState.AVAILABLE } : state.statusId === 'IN_USE' ? {
+            type: MachineState.IN_USE,
+            remainingSeconds: state.remainingSeconds,
+            } : { type: MachineState.OUT_OF_ORDER },
+        };
+    });
+}
+
+function MachineStateInfo({ state }: { state: MachineStatus }) {
+  if (state.type === MachineState.AVAILABLE) {
+    return <p>Available</p>
+  }
+  if (state.type === MachineState.OUT_OF_ORDER) {
+    return <p>Out of order</p>
+  }
+  return <>
+    <p>In use</p>
+    <p>{fmtTimeDuration(state.remainingSeconds)} remaining</p>
+  </>
+}
+
+function MachineInfo({ machine}: { machine: Machine}) {
+  return <div className="p-2 border-solid border rounded-xl border-gray-600 w-40 h-32">
+    {fmtMachineType(machine.type)}
+    <MachineStateInfo state={machine.status} />
+  </div>
+}
+
+function Comments({ dataPromise }: { dataPromise: Promise<Machine[]> } ) {
+  const data = use(dataPromise);
+  return <div>
+    <div className="flex flex-wrap gap-2">
+      {data.map((machine) => <MachineInfo key={machine.id} machine={machine} />)}
+    </div>
+  </div>;
+}
+
+async function loadData(): Promise<Machine[]> {
+  const res = await fetch('https://api.alliancelslabs.com/washAlert/machines/15288', {
+    headers: {
+      'alliancels-organization-id': '652210'
+    }
+  });
+  return parseApiData(await res.json());
 }
 
 export default function Page() {
-  return <main>
+  return <main className="p-2">
     <Suspense fallback={<div>Loading...</div>}>
       <Comments dataPromise={loadData()} />
     </Suspense>
