@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const geistSans = Geist({
@@ -25,16 +25,19 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <head>
-            <meta charSet="utf-8"/>
-            <meta content="width=device-width, initial-scale=1.0, maximum-scale=5" name="viewport"/>
-            <link rel="icon" href="/favicon.ico"/>
-            <Analytics/>
-            <title>Rootes Laundromat</title>
-        </head>
-        <body className={ `${ geistSans.variable } ${ geistMono.variable } antialiased` }>
-        { children }
-        </body>
+            <head>
+                <meta charSet="utf-8" />
+                <meta
+                    content="width=device-width, initial-scale=1.0, maximum-scale=5"
+                    name="viewport"
+                />
+                <link rel="icon" href="/favicon.ico" />
+                <title>Rootes Laundromat</title>
+            </head>
+            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+                {children}
+                <Analytics />
+            </body>
         </html>
     );
 }
