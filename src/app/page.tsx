@@ -1,76 +1,8 @@
 import { Suspense, use } from 'react';
 import { fmtTimeDurationMinutes } from '@/app/util';
-
-enum MachineType {
-    WASHER = 'MachineType::WASHER',
-    DRYER = 'MachineType::DRYER'
-}
-
-function fmtMachineType(t: MachineType) {
-    switch (t) {
-        case MachineType.WASHER:
-            return 'Washer';
-        case MachineType.DRYER:
-            return 'Dryer';
-    }
-}
-
-enum MachineState {
-    AVAILABLE = 'MachineState::AVAILABLE',
-    IN_USE = 'MachineState::IN_USE',
-    OUT_OF_ORDER = 'MachineState::OUT_OF_ORDER'
-}
-
-type MachineStatus =
-    | { type: MachineState.OUT_OF_ORDER }
-    | { type: MachineState.AVAILABLE }
-    | {
-          type: MachineState.IN_USE;
-          remainingSeconds: number;
-      };
-
-interface Machine {
-    id: string;
-    type: MachineType;
-    status: MachineStatus;
-}
-
-interface RawMachineData {
-    id: string;
-    currentStatus: string;
-    machineType: { isWasher: boolean; isDryer: boolean };
-}
-
-function parseApiData(data: RawMachineData[]): Machine[] {
-    return data.map(machine => {
-        const state = JSON.parse(machine.currentStatus) as {
-            remainingSeconds: number;
-            statusId: string;
-        };
-        return {
-            id: machine.id,
-            type: machine.machineType.isWasher ? MachineType.WASHER : MachineType.DRYER,
-            status:
-                state.statusId === 'AVAILABLE'
-                    ? { type: MachineState.AVAILABLE }
-                    : state.statusId === 'IN_USE'
-                      ? {
-                            type: MachineState.IN_USE,
-                            remainingSeconds: state.remainingSeconds
-                        }
-                      : { type: MachineState.OUT_OF_ORDER }
-        };
-    });
-}
-
-function ColouredDot({ colour, className = '' }: { colour: string; className?: string }) {
-    return (
-        <span
-            className={`inline-block w-3 h-3 rounded-full ${className}`}
-            style={{ backgroundColor: colour }}
-        ></span>
-    );
-}
+import type { Machine, MachineStatus} from '@/app/machineData';
+import { fmtMachineType, loadMachinesData, MachineState, MachineType } from '@/app/machineData';
+import { ColouredDot } from '@/app/ColouredDot';
 
 function MachineStateInfo({ state }: { state: MachineStatus }) {
     if (state.type === MachineState.AVAILABLE) {
@@ -108,12 +40,18 @@ function MachineInfo({ machine }: { machine: Machine }) {
     );
 }
 
-function Comments({ dataPromise }: { dataPromise: Promise<Machine[]> }) {
+function PageWithData({ dataPromise }: { dataPromise: Promise<Machine[]> }) {
     const data = use(dataPromise);
+    const sortedData = data.sort((a, b) => {
+        if (a.type === b.type) {
+            return a.id.localeCompare(b.id);
+        }
+        return a.type === MachineType.WASHER ? -1 : 1;
+    });
     return (
         <div>
             <div className="flex flex-wrap gap-2">
-                {data.map(machine => (
+                {sortedData.map(machine => (
                     <MachineInfo key={machine.id} machine={machine} />
                 ))}
             </div>
@@ -121,20 +59,15 @@ function Comments({ dataPromise }: { dataPromise: Promise<Machine[]> }) {
     );
 }
 
-async function loadData(): Promise<Machine[]> {
-    const res = await fetch('https://api.alliancelslabs.com/washAlert/machines/15288', {
-        headers: {
-            'alliancels-organization-id': '652210'
-        }
-    });
-    return parseApiData(await res.json());
+function LoadingPage() {
+    return <div>Loading...</div>;
 }
 
 export default function Page() {
     return (
         <main className="p-2">
-            <Suspense fallback={<div>Loading...</div>}>
-                <Comments dataPromise={loadData()} />
+            <Suspense fallback={<LoadingPage />}>
+                <PageWithData dataPromise={loadMachinesData()} />
             </Suspense>
         </main>
     );
