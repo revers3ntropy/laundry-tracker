@@ -1,5 +1,5 @@
-export function fmtTimeDuration(secs: number) {
-    const date = new Date(0);
-    date.setSeconds(secs);
-    return date.toISOString().substring(11, 19);
+export function fmtTimeDurationMinutes(secs: number) {
+    const mins = Math.floor(secs / 60);
+    const remainingSecs = secs % 60;
+    return `${mins}m ${remainingSecs}s`;
 }
