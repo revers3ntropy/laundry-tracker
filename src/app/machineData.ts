@@ -26,6 +26,17 @@ export type MachineStatus =
           remainingSeconds: number;
       };
 
+export function machineStateColour(state: MachineState): string {
+    switch (state) {
+        case MachineState.AVAILABLE:
+            return 'green';
+        case MachineState.IN_USE:
+            return 'orange';
+        case MachineState.OUT_OF_ORDER:
+            return 'red';
+    }
+}
+
 export interface Machine {
     id: string;
     type: MachineType;
