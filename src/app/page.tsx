@@ -1,5 +1,5 @@
 import { Suspense, use } from 'react';
-import { fmtTimeDuration } from '@/app/util';
+import { fmtTimeDurationMinutes } from '@/app/util';
 
 enum MachineType {
     WASHER = 'MachineType::WASHER',
@@ -63,17 +63,26 @@ function parseApiData(data: RawMachineData[]): Machine[] {
     });
 }
 
+function ColouredDot({ colour, className = '' }: { colour: string, className?: string }) {
+    return (
+        <span
+            className={`inline-block w-3 h-3 rounded-full ${className}`}
+            style={{ backgroundColor: colour }}
+        ></span>
+    );
+}
+
 function MachineStateInfo({ state }: { state: MachineStatus }) {
     if (state.type === MachineState.AVAILABLE) {
-        return <p>Available</p>;
+        return <p className="flex gap-2 justify-start items-center"><ColouredDot colour="green"/> Available</p>;
     }
     if (state.type === MachineState.OUT_OF_ORDER) {
-        return <p>Out of order</p>;
+        return <p className="flex gap-2 justify-start items-center"><ColouredDot colour="red"/>Out of order</p>;
     }
     return (
         <>
-            <p>In use</p>
-            <p>{fmtTimeDuration(state.remainingSeconds)} remaining</p>
+            <p className="flex gap-2 justify-start items-center"> <ColouredDot colour="orange" /> In use</p>
+            <p>{fmtTimeDurationMinutes(state.remainingSeconds)} remaining</p>
         </>
     );
 }
