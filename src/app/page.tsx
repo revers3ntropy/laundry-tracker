@@ -8,6 +8,7 @@ import { PageReloadButton } from '@/lib/PageReloadButton';
 import { MachinesInfo } from '@/lib/machines/MachinesInfo';
 import { validateRoom } from '@/lib/rooms';
 import { RoomDropdown } from '@/lib/RoomDropdown';
+import { Skeleton } from "@/components/ui/skeleton";
 
 function PageWithData({ machineDataPromise }: { machineDataPromise: Promise<Machine[]> }) {
     const data = use(machineDataPromise);
@@ -35,12 +36,41 @@ function PageWithData({ machineDataPromise }: { machineDataPromise: Promise<Mach
 }
 
 function LoadingPage() {
-    return <div>Loading...</div>;
+    return <div>
+        <div className="flex items-center space-x-4 pb-4">
+            <Skeleton className="h-16 w-16 rounded-full"/>
+            <div className="space-y-2">
+                <Skeleton className="h-6 w-[250px]"/>
+                <Skeleton className="h-6 w-[200px]"/>
+            </div>
+        </div>
+        <div className="flex flex-wrap gap-2 pb-4">
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+            <Skeleton className="h-28 w-[200px]"/>
+        </div>
+
+
+    </div>;
 }
 
-export default async function Page({
-    searchParams
-}: {
+export default async function Page ({
+                                        searchParams
+                                    }: {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
     const room = validateRoom((await searchParams)['r']);
