@@ -3,15 +3,6 @@ export enum MachineType {
     DRYER = 'MachineType::DRYER'
 }
 
-export function fmtMachineType(t: MachineType) {
-    switch (t) {
-        case MachineType.WASHER:
-            return 'Washer';
-        case MachineType.DRYER:
-            return 'Dryer';
-    }
-}
-
 export enum MachineState {
     AVAILABLE = 'MachineState::AVAILABLE',
     IN_USE = 'MachineState::IN_USE',

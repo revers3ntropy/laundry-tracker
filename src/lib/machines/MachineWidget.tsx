@@ -41,13 +41,11 @@ export function MachineWidget({ machine }: { machine: Machine }) {
         >
             {machine.type === MachineType.WASHER ? (
                 <>
-                    {' '}
-                    <Icon className="inline" path={mdiWashingMachine} size={1} /> Washer{' '}
+                    <Icon className="inline" path={mdiWashingMachine} size={1} /> Washer
                 </>
             ) : (
                 <>
-                    {' '}
-                    <Icon className="inline" path={mdiTumbleDryer} size={1} /> Dryer{' '}
+                    <Icon className="inline" path={mdiTumbleDryer} size={1} /> Dryer
                 </>
             )}
             <div className="pl-1.5">

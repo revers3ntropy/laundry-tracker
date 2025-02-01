@@ -6,11 +6,19 @@ export function Footer() {
         <footer className="flex items-center gap-4 flex-col py-4 text-gray-400">
             <p>
                 Created by{' '}
-                <a href="https://josephcoppin.com" target="_blank" className="underline hover:text-white">
+                <a
+                    href="https://josephcoppin.com"
+                    target="_blank"
+                    className="underline hover:text-white"
+                >
                     Joseph Coppin
                 </a>{' '}
                 and{' '}
-                <a href="https://orcid.org/0009-0006-1364-9214" target="_blank" className="underline hover:text-white">
+                <a
+                    href="https://orcid.org/0009-0006-1364-9214"
+                    target="_blank"
+                    className="underline hover:text-white"
+                >
                     Jonathan Iles
                 </a>{' '}
             </p>
