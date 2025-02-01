@@ -35,7 +35,9 @@ export default function RootLayout({
                 <link rel="icon" href="/favicon.ico" />
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                {children}
+                <main className="flex justify-center  md:p-4 p-2">
+                    <div className="w-full md:max-w-4xl">{children}</div>
+                </main>
                 <Analytics />
                 <SpeedInsights />
             </body>
