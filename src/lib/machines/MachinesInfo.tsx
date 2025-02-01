@@ -1,8 +1,11 @@
 import type { Machine, MachineType } from '@/lib/machines/machineData';
+import { machineStateColour } from '@/lib/machines/machineData';
 import { MachineState } from '@/lib/machines/machineData';
 import { fmtTimeDurationMinutes } from '@/lib/utils';
 import { mdiTumbleDryer, mdiWashingMachine } from '@mdi/js';
 import Icon from '@mdi/react';
+import { ColouredDot } from '@/lib/ColouredDot';
+import type { ReactNode } from 'react';
 
 function secondsUntilNextMachineIsAvailable(machines: Machine[]): number {
     const inUseMachines = machines
@@ -25,52 +28,57 @@ function secondsUntilNextMachineIsAvailable(machines: Machine[]): number {
     return -1;
 }
 
-export function MachinesInfo({ washers, dryers }: { washers: Machine[]; dryers: Machine[] }) {
-    const availableWashers = washers.filter(m => m.status.type === MachineState.AVAILABLE);
-    const nextWasherAvailable = secondsUntilNextMachineIsAvailable(washers);
-    const availableDryers = dryers.filter(m => m.status.type === MachineState.AVAILABLE);
-    const nextDryerAvailable = secondsUntilNextMachineIsAvailable(dryers);
+function MachineClassInfo({
+    machines,
+    machineClassName,
+    icon
+}: {
+    machines: Machine[];
+    machineClassName: string;
+    icon: ReactNode;
+}) {
+    const available = machines.filter(m => m.status.type === MachineState.AVAILABLE);
+    const nextAvailable = secondsUntilNextMachineIsAvailable(machines);
+    return (
+        <p className="flex items-center">
+            {icon}{' '}
+            {available.length === 0 ? (
+                nextAvailable > 0 ? (
+                    <span>
+                        <ColouredDot colour={machineStateColour(MachineState.IN_USE)} />{' '}
+                        <span className="text-xl">{fmtTimeDurationMinutes(nextAvailable)}</span>{' '}
+                        until next {machineClassName} is available
+                    </span>
+                ) : (
+                    <span>
+                        <ColouredDot colour={machineStateColour(MachineState.OUT_OF_ORDER)} /> No{' '}
+                        {machineClassName}s available
+                    </span>
+                )
+            ) : (
+                <span>
+                    <ColouredDot colour={machineStateColour(MachineState.AVAILABLE)} />{' '}
+                    <span className="text-xl">{available.length}</span> {machineClassName}
+                    {available.length === 1 ? '' : 's'} available
+                </span>
+            )}
+        </p>
+    );
+}
 
+export function MachinesInfo({ washers, dryers }: { washers: Machine[]; dryers: Machine[] }) {
     return (
         <>
-            <p className="flex items-center">
-                <Icon className="inline pr-2" path={mdiWashingMachine} size={1.5} />
-                {availableWashers.length === 0 ? (
-                    nextWasherAvailable > 0 ? (
-                        <span>
-                            <span className="text-xl">
-                                {fmtTimeDurationMinutes(nextWasherAvailable)}
-                            </span>{' '}
-                            until next washer is available
-                        </span>
-                    ) : (
-                        <span>No washers available</span>
-                    )
-                ) : (
-                    <span>
-                        <span className="text-xl">{availableWashers.length}</span> washers available
-                    </span>
-                )}
-            </p>
-            <p className="flex items-center">
-                <Icon className="inline pr-2" path={mdiTumbleDryer} size={1.5} />
-                {availableDryers.length === 0 ? (
-                    nextDryerAvailable > 0 ? (
-                        <span>
-                            <span className="text-xl">
-                                {fmtTimeDurationMinutes(nextDryerAvailable)}
-                            </span>{' '}
-                            until next dryer is available
-                        </span>
-                    ) : (
-                        <span>No dryers available</span>
-                    )
-                ) : (
-                    <span>
-                        <span className="text-xl">{availableDryers.length}</span> dryers available
-                    </span>
-                )}
-            </p>
+            <MachineClassInfo
+                machineClassName="washer"
+                machines={washers}
+                icon={<Icon className="inline pr-2" path={mdiWashingMachine} size={1.5} />}
+            />
+            <MachineClassInfo
+                machineClassName="dryer"
+                machines={dryers}
+                icon={<Icon className="inline pr-2" path={mdiTumbleDryer} size={1.5} />}
+            />
         </>
     );
 }

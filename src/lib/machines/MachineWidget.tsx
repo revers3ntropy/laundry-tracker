@@ -36,7 +36,7 @@ function MachineStateInfo({ status }: { status: MachineStatus }) {
 export function MachineWidget({ machine }: { machine: Machine }) {
     return (
         <div
-            className="p-2 border-solid border-2 rounded-xl border-gray-600 min-w-40 max-w-80 w-full h-28"
+            className="p-2 border-solid border-2 rounded-xl border-gray-600 w-[200px] h-28"
             style={{ borderColor: machineStateColour(machine.status.type) }}
         >
             {machine.type === MachineType.WASHER ? (
