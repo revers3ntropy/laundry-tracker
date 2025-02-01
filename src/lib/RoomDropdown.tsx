@@ -16,7 +16,7 @@ export function RoomDropdown({ room }: { room: Room }) {
             defaultValue={room}
             onValueChange={newRoom => window.location.assign(`/?r=${newRoom}`)}
         >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full text-2xl h-fit">
                 <SelectValue placeholder="Select Room" />
             </SelectTrigger>
             <SelectContent>

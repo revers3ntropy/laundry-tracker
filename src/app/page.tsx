@@ -41,13 +41,13 @@ function LoadingPage() {
 export default async function Page({
     searchParams
 }: {
-    searchParams: { [key: string]: string | string[] | undefined };
+    searchParams: { [_: string]: string | string[] | undefined };
 }) {
     const room = validateRoom((await searchParams)['r']);
     return (
         <>
             <h1 className="text-lg">University of Warwick Laundromat Tracker</h1>
-            <div className="py-2">
+            <div className="pt-4 pb-4">
                 <RoomDropdown room={room} />
             </div>
             <Suspense fallback={<LoadingPage />}>

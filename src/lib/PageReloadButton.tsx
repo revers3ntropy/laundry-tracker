@@ -1,12 +1,13 @@
 'use client';
 
-import Icon from '@mdi/react';
-import { mdiReload } from '@mdi/js';
+import { RotateCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function PageReloadButton() {
     return (
-        <button onClick={() => location.reload()}>
-            <Icon path={mdiReload} size={1.8} />
-        </button>
+        <Button variant="outline" onClick={() => location.reload()}>
+            <RotateCw size={2} />
+            Reload
+        </Button>
     );
 }
