@@ -33,15 +33,17 @@ function MachineStateInfo({ status }: { status: MachineStatus }) {
 
 function MachineInfo({ machine }: { machine: Machine }) {
     return (
-        <div className="p-2 border-solid border-2 rounded-xl border-gray-600 w-40 h-28"
-        style={{ borderColor: machineStateColour(machine.status.type)}}>
+        <div
+            className="p-2 border-solid border-2 rounded-xl border-gray-600 w-40 h-28"
+            style={{ borderColor: machineStateColour(machine.status.type) }}
+        >
             {fmtMachineType(machine.type)}
             <MachineStateInfo status={machine.status} />
         </div>
     );
 }
 
-function PageWithData({ machineDataPromise }: { machineDataPromise: Promise<Machine[]> }) {
+export function PageWithData({ machineDataPromise }: { machineDataPromise: Promise<Machine[]> }) {
     const data = use(machineDataPromise);
     const sortedData = data.sort((a, b) => {
         if (a.type === b.type) {
