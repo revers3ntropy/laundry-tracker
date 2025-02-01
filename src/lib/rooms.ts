@@ -74,8 +74,15 @@ export const roomNames = {
     rootes: 'Rootes'
 } satisfies Record<Room, string>;
 
-export function validateRoom(room: string | null | undefined): Room {
-    if (room && room in ROOM_CODES) {
+export function validateRoom(room: string | string[] | null | undefined): Room {
+    if (Array.isArray(room)) {
+        for (const r of room) {
+            if (r in ROOM_CODES) {
+                return r as Room;
+            }
+        }
+    }
+    else if (room && room in ROOM_CODES) {
         return room as Room;
     }
     return 'rootes';

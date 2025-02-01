@@ -1,9 +1,10 @@
 import Icon from '@mdi/react';
 import { mdiGithub } from '@mdi/js';
+import { ThemeToggle } from '@/lib/theme-toggle';
 
 export function Footer() {
     return (
-        <footer className="flex items-center gap-4 flex-col py-4 text-foregroundLight">
+        <footer className="flex items-center gap-4 flex-col py-4 text-muted-foreground">
             <p>
                 Created by{' '}
                 <a
@@ -30,6 +31,9 @@ export function Footer() {
                 >
                     <Icon path={mdiGithub} size={1.1} className="inline" /> Source Code
                 </a>
+            </p>
+            <p>
+                <ThemeToggle />
             </p>
         </footer>
     );

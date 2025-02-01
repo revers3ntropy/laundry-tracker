@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import { Footer } from '@/lib/Footer';
+import { ThemeProvider } from '@/components/theme-providor.';
 
 export const metadata: Metadata = {
     title: 'Rootes Laundromat',
@@ -15,7 +16,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <head>
                 <meta charSet="utf-8" />
                 <meta
@@ -25,10 +26,17 @@ export default function RootLayout({
                 <link rel="icon" href="/favicon.ico" />
             </head>
             <body className="antialiased">
-                <main className="flex justify-center md:p-4 p-2 min-h-[100vh]">
-                    <div className="w-full md:max-w-4xl">{children}</div>
-                </main>
-                <Footer />
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <main className="flex justify-center md:p-4 p-2 min-h-[100vh]">
+                        <div className="w-full md:max-w-4xl">{children}</div>
+                    </main>
+                    <Footer />
+                </ThemeProvider>
 
                 <Analytics />
                 <SpeedInsights />
