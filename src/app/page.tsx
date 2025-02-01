@@ -5,7 +5,7 @@ import type { Machine } from '@/lib/machines/machineData';
 import { loadMachinesData } from '@/lib/machines/machineData';
 import { MachineState, MachineType } from '@/lib/machines/machineData';
 
-export function PageWithData({ machineDataPromise }: { machineDataPromise: Promise<Machine[]> }) {
+function PageWithData({ machineDataPromise }: { machineDataPromise: Promise<Machine[]> }) {
     const data = use(machineDataPromise);
     const sortedData = data.sort((a, b) => {
         if (a.type === b.type) {
