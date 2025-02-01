@@ -66,14 +66,18 @@ export function parseApiData(data: RawMachineData[]): Machine[] {
 }
 
 export async function loadMachinesData(room: Room): Promise<Machine[]> {
-    console.log(room, ROOM_CODES[room]);
-    const res = await fetch(
-        `https://api.alliancelslabs.com/washAlert/machines/${ROOM_CODES[room]}`,
-        {
-            headers: {
-                'alliancels-organization-id': '652210'
+    try {
+        const res = await fetch(
+            `https://api.alliancelslabs.com/washAlert/machines/${ROOM_CODES[room]}`,
+            {
+                headers: {
+                    'alliancels-organization-id': '652210'
+                }
             }
-        }
-    );
-    return parseApiData(await res.json());
+        );
+        return parseApiData(await res.json());
+    } catch (e) {
+        console.error('Error fetching machine data', e);
+        return [];
+    }
 }
