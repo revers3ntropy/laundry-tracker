@@ -1,4 +1,4 @@
-name: svelte-check
+name: Lint
 on:
   push:
     branches: [ dev, main ]
