@@ -1,19 +1,31 @@
 'use client';
 
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '@/components/ui/select';
 import type { Room } from '@/lib/rooms';
 import { roomNames } from '@/lib/rooms';
 
 export function RoomDropdown({ room }: { room: Room }) {
     return (
-        <select
+        <Select
             defaultValue={room}
-            onChange={event => window.location.assign(`/?r=${event.target.value}`)}
+            onValueChange={newRoom => window.location.assign(`/?r=${newRoom}`)}
         >
-            {Object.entries(roomNames).map(([key, value]) => (
-                <option key={key} value={key}>
-                    {value}
-                </option>
-            ))}
-        </select>
+            <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select Room" />
+            </SelectTrigger>
+            <SelectContent>
+                {Object.entries(roomNames).map(([key, value]) => (
+                    <SelectItem key={key} value={key}>
+                        {value}
+                    </SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
     );
 }

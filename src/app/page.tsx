@@ -4,7 +4,7 @@ import { MachineWidgets } from '@/lib/machines/MachineWidgets';
 import type { Machine } from '@/lib/machines/machineData';
 import { loadMachinesData } from '@/lib/machines/machineData';
 import { MachineType } from '@/lib/machines/machineData';
-import { PageReloadButton } from '@/lib/PageRealodButton';
+import { PageReloadButton } from '@/lib/PageReloadButton';
 import { MachinesInfo } from '@/lib/machines/MachinesInfo';
 import { validateRoom } from '@/lib/rooms';
 import { RoomDropdown } from '@/lib/RoomDropdown';
@@ -47,7 +47,9 @@ export default async function Page({
     return (
         <>
             <h1 className="text-lg">University of Warwick Laundromat Tracker</h1>
-            <RoomDropdown room={room} />
+            <div className="py-2">
+                <RoomDropdown room={room} />
+            </div>
             <Suspense fallback={<LoadingPage />}>
                 <PageWithData machineDataPromise={loadMachinesData(room)} />
             </Suspense>

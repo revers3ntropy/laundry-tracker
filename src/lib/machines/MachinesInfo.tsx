@@ -1,6 +1,6 @@
 import type { Machine, MachineType } from '@/lib/machines/machineData';
 import { MachineState } from '@/lib/machines/machineData';
-import { fmtTimeDurationMinutes } from '@/lib/util';
+import { fmtTimeDurationMinutes } from '@/lib/utils';
 import { mdiTumbleDryer, mdiWashingMachine } from '@mdi/js';
 import Icon from '@mdi/react';
 

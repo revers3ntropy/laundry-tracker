@@ -1,7 +1,7 @@
 import { ColouredDot } from '@/lib/ColouredDot';
 import type { Machine, MachineStatus } from '@/lib/machines/machineData';
 import { MachineState, machineStateColour, MachineType } from '@/lib/machines/machineData';
-import { fmtTimeDurationMinutes } from '@/lib/util';
+import { fmtTimeDurationMinutes } from '@/lib/utils';
 import Icon from '@mdi/react';
 import { mdiTumbleDryer, mdiWashingMachine } from '@mdi/js';
 
