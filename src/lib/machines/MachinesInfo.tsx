@@ -6,6 +6,7 @@ import { mdiTumbleDryer, mdiWashingMachine } from '@mdi/js';
 import Icon from '@mdi/react';
 import { ColouredDot } from '@/components/ColouredDot';
 import type { ReactNode } from 'react';
+import { Timer } from '@/components/Timer';
 
 function secondsUntilNextMachineIsAvailable(machines: Machine[]): number {
     const inUseMachines = machines
@@ -46,7 +47,9 @@ function MachineClassInfo({
                 nextAvailable > 0 ? (
                     <span>
                         <ColouredDot colour={machineStateColour(MachineState.IN_USE)} />{' '}
-                        <span className="text-xl">{fmtTimeDurationMinutes(nextAvailable)}</span>{' '}
+                        <span className="text-xl">
+                            <Timer seconds={nextAvailable} />
+                        </span>{' '}
                         until next {machineClassName} is available
                     </span>
                 ) : (

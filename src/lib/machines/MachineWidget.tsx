@@ -1,9 +1,9 @@
 import { ColouredDot } from '@/components/ColouredDot';
 import type { Machine, MachineStatus } from '@/lib/machines/machineData';
 import { MachineState, machineStateColour, MachineType } from '@/lib/machines/machineData';
-import { fmtTimeDurationMinutes } from '@/lib/utils';
 import Icon from '@mdi/react';
 import { mdiTumbleDryer, mdiWashingMachine } from '@mdi/js';
+import { Timer } from '@/components/Timer';
 
 function MachineStateInfo({ status }: { status: MachineStatus }) {
     if (status.type === MachineState.AVAILABLE) {
@@ -34,7 +34,7 @@ function MachineStateInfo({ status }: { status: MachineStatus }) {
                 <ColouredDot colour={machineStateColour(status.type)} /> In use
             </p>
             <p className="text-muted-foreground">
-                {fmtTimeDurationMinutes(status.remainingSeconds)} remaining
+                <Timer seconds={status.remainingSeconds} /> remaining
             </p>
         </>
     );
