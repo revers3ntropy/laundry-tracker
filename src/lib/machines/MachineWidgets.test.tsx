@@ -1,14 +1,14 @@
 import { expect, test } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { PageWithData } from '@/app/page';
-import type { Machine } from '@/app/machineData';
-import { MachineState, MachineType } from '@/app/machineData';
+import type { Machine } from '@/lib/machines/machineData';
+import { MachineState, MachineType } from '@/lib/machines/machineData';
+import { MachineWidgets } from '@/lib/machines/MachineWidgets';
 
 test('Page', () => {
-    const mockData = [
+    const washers = [
         { id: 'a', type: MachineType.WASHER, status: { type: MachineState.AVAILABLE } }
     ] satisfies Machine[];
-    render(<PageWithData machineDataPromise={Promise.resolve(mockData)} />);
+    render(<MachineWidgets washers={washers} dryers={[]} />);
     expect(screen.findByText('Washer')).toBeDefined();
     expect(screen.findByText('Available')).toBeDefined();
 });
