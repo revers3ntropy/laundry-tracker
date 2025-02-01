@@ -81,8 +81,7 @@ export function validateRoom(room: string | string[] | null | undefined): Room {
                 return r as Room;
             }
         }
-    }
-    else if (room && room in ROOM_CODES) {
+    } else if (room && room in ROOM_CODES) {
         return room as Room;
     }
     return 'rootes';
