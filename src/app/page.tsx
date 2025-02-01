@@ -21,7 +21,6 @@ function PageWithData({ machineDataPromise }: { machineDataPromise: Promise<Mach
         <div>
             <div className="flex justify-between w-full">
                 <div className="pb-8 pt-2">
-                    <h1 className="text-3xl pb-2">Rootes Laundromat</h1>
                     <MachinesInfo washers={washers} dryers={dryers} />
                 </div>
                 <div className="flex justify-center items-center">
@@ -38,10 +37,12 @@ function LoadingPage() {
 }
 
 export default function Page() {
-    loadMachinesData().then(console.log);
     return (
-        <Suspense fallback={<LoadingPage />}>
-            <PageWithData machineDataPromise={loadMachinesData()} />
-        </Suspense>
+        <>
+            <h1 className="text-lg">Warwick Laundromat Tracker</h1>
+            <Suspense fallback={<LoadingPage />}>
+                <PageWithData machineDataPromise={loadMachinesData()} />
+            </Suspense>
+        </>
     );
 }
