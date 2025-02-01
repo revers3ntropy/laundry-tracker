@@ -26,7 +26,7 @@ function MachineStateInfo({ status }: { status: MachineStatus }) {
             <p className="flex gap-2 justify-start items-center text-lg">
                 <ColouredDot colour={machineStateColour(status.type)} /> In use
             </p>
-            <p className="text-gray-400">
+            <p className="text-foregroundLight">
                 {fmtTimeDurationMinutes(status.remainingSeconds)} remaining
             </p>
         </>

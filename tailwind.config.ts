@@ -9,6 +9,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        foregroundLight: "var(--foreground-light)",
       },
     },
   },
