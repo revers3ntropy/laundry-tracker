@@ -41,7 +41,7 @@ function LoadingPage() {
 export default async function Page({
     searchParams
 }: {
-    searchParams: { [_: string]: string | string[] | undefined };
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
     const room = validateRoom((await searchParams)['r']);
     return (
