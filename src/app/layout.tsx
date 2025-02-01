@@ -3,7 +3,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import { Footer } from '@/lib/Footer';
-import { ThemeProvider } from '@/components/theme-providor.';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
     title: 'Rootes Laundromat',
