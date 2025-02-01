@@ -71,7 +71,7 @@ export const roomNames = {
     ww_gosford: 'Westwood Gosford',
     ww_hampton: 'Westwood Hampton',
     ww_kinghtcote: 'Westwood Knightcote',
-    ww_loxley: 'Westwood Loxley',
+    ww_loxley: 'Westwood Loxley'
 } satisfies Record<Room, string>;
 
 export function validateRoom(room: string | string[] | null | undefined): Room {

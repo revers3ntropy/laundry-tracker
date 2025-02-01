@@ -1,6 +1,6 @@
 import Icon from '@mdi/react';
 import { mdiGithub } from '@mdi/js';
-import { ThemeToggle } from '@/lib/theme-toggle';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export function Footer() {
     return (

@@ -4,7 +4,7 @@ import { MachineState } from '@/lib/machines/machineData';
 import { fmtTimeDurationMinutes } from '@/lib/utils';
 import { mdiTumbleDryer, mdiWashingMachine } from '@mdi/js';
 import Icon from '@mdi/react';
-import { ColouredDot } from '@/lib/ColouredDot';
+import { ColouredDot } from '@/components/ColouredDot';
 import type { ReactNode } from 'react';
 
 function secondsUntilNextMachineIsAvailable(machines: Machine[]): number {

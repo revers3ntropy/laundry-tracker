@@ -8,12 +8,14 @@ export enum MachineType {
 
 export enum MachineState {
     AVAILABLE = 'MachineState::AVAILABLE',
+    COMPLETE = 'MachineState::COMPLETE',
     IN_USE = 'MachineState::IN_USE',
     OUT_OF_ORDER = 'MachineState::OUT_OF_ORDER'
 }
 
 export type MachineStatus =
     | { type: MachineState.OUT_OF_ORDER }
+    | { type: MachineState.COMPLETE }
     | { type: MachineState.AVAILABLE }
     | {
           type: MachineState.IN_USE;
@@ -25,6 +27,7 @@ export function machineStateColour(state: MachineState): string {
         case MachineState.AVAILABLE:
             return 'green';
         case MachineState.IN_USE:
+        case MachineState.COMPLETE:
             return 'orange';
         case MachineState.OUT_OF_ORDER:
             return 'red';
@@ -49,18 +52,30 @@ export function parseApiData(data: RawMachineData[]): Machine[] {
             remainingSeconds: number;
             statusId: string;
         };
+
+        let status: MachineStatus;
+        switch (state.statusId) {
+            case 'AVAILABLE':
+            case 'READY_TO_START':
+                status = { type: MachineState.AVAILABLE };
+                break;
+            case 'COMPLETE':
+                status = { type: MachineState.COMPLETE };
+                break;
+            case 'IN_USE':
+                status = {
+                    type: MachineState.IN_USE,
+                    remainingSeconds: state.remainingSeconds
+                };
+                break;
+            default:
+                status = { type: MachineState.OUT_OF_ORDER };
+                break;
+        }
         return {
             id: machine.id,
             type: machine.machineType.isWasher ? MachineType.WASHER : MachineType.DRYER,
-            status:
-                state.statusId === 'AVAILABLE'
-                    ? { type: MachineState.AVAILABLE }
-                    : state.statusId === 'IN_USE'
-                      ? {
-                            type: MachineState.IN_USE,
-                            remainingSeconds: state.remainingSeconds
-                        }
-                      : { type: MachineState.OUT_OF_ORDER }
+            status
         };
     });
 }

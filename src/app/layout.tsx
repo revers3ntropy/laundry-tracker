@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
-import { Footer } from '@/lib/Footer';
-import { ThemeProvider } from '@/components/theme-provider';
+import { Footer } from '@/components/Footer';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
     title: 'Rootes Laundromat',

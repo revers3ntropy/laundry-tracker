@@ -1,4 +1,4 @@
-import { ColouredDot } from '@/lib/ColouredDot';
+import { ColouredDot } from '@/components/ColouredDot';
 import type { Machine, MachineStatus } from '@/lib/machines/machineData';
 import { MachineState, machineStateColour, MachineType } from '@/lib/machines/machineData';
 import { fmtTimeDurationMinutes } from '@/lib/utils';
@@ -10,6 +10,13 @@ function MachineStateInfo({ status }: { status: MachineStatus }) {
         return (
             <p className="flex gap-2 justify-start items-center text-lg">
                 <ColouredDot colour={machineStateColour(status.type)} /> Available
+            </p>
+        );
+    }
+    if (status.type === MachineState.COMPLETE) {
+        return (
+            <p className="flex gap-2 justify-start items-center text-lg">
+                <ColouredDot colour={machineStateColour(status.type)} /> Complete
             </p>
         );
     }

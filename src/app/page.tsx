@@ -4,9 +4,9 @@ import { MachineWidgets } from '@/lib/machines/MachineWidgets';
 import type { Machine } from '@/lib/machines/machineData';
 import { loadMachinesData } from '@/lib/machines/machineData';
 import { MachineType } from '@/lib/machines/machineData';
-import { PageReloadButton } from '@/lib/PageReloadButton';
+import { PageReloadButton } from '@/components/PageReloadButton';
 import { MachinesInfo } from '@/lib/machines/MachinesInfo';
-import { validateRoom } from '@/lib/rooms';
+import { ROOM_CODES, validateRoom } from '@/lib/rooms';
 import { RoomDropdown } from '@/lib/RoomDropdown';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -74,6 +74,13 @@ export default async function Page({
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
     const room = validateRoom((await searchParams)['r']);
+    fetch(`https://api.alliancelslabs.com/washAlert/machines/${ROOM_CODES[room]}`, {
+        headers: {
+            'alliancels-organization-id': '652210'
+        }
+    })
+        .then(r => r.json())
+        .then(console.log);
     return (
         <>
             <h1 className="text-lg">University of Warwick Laundromat Tracker</h1>
