@@ -1,3 +1,6 @@
+import type { Room } from '@/lib/rooms';
+import { ROOM_CODES } from '@/lib/rooms';
+
 export enum MachineType {
     WASHER = 'MachineType::WASHER',
     DRYER = 'MachineType::DRYER'
@@ -62,11 +65,15 @@ export function parseApiData(data: RawMachineData[]): Machine[] {
     });
 }
 
-export async function loadMachinesData(): Promise<Machine[]> {
-    const res = await fetch('https://api.alliancelslabs.com/washAlert/machines/15288', {
-        headers: {
-            'alliancels-organization-id': '652210'
+export async function loadMachinesData(room: Room): Promise<Machine[]> {
+    console.log(room, ROOM_CODES[room]);
+    const res = await fetch(
+        `https://api.alliancelslabs.com/washAlert/machines/${ROOM_CODES[room]}`,
+        {
+            headers: {
+                'alliancels-organization-id': '652210'
+            }
         }
-    });
+    );
     return parseApiData(await res.json());
 }
