@@ -32,7 +32,8 @@ export const ROOM_CODES = {
     sb_5: 5981,
     sb_7: 5983,
     tocil: 7907,
-    rootes: 15288
+    rootes: 15288,
+    oaks: 326077,
 };
 
 export type Room = keyof typeof ROOM_CODES;
@@ -71,7 +72,8 @@ export const roomNames = {
     ww_gosford: 'Westwood Gosford',
     ww_hampton: 'Westwood Hampton',
     ww_kinghtcote: 'Westwood Knightcote',
-    ww_loxley: 'Westwood Loxley'
+    ww_loxley: 'Westwood Loxley',
+    oaks: 'The Oaks',
 } satisfies Record<Room, string>;
 
 export function validateRoom(room: string | string[] | null | undefined): Room {
